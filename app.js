@@ -85,7 +85,7 @@ function setupEventListeners() {
 
     const taskName = taskInput.value.trim();
     const amount = parseFloat(amountInput.value);
-    const category = categoryInput.value;
+    const category = categoryInput.value.trim();
 
     if (taskName && !isNaN(amount) && amount > 0) {
       const newExpense = {
@@ -107,7 +107,7 @@ function setupEventListeners() {
 
       taskInput.value = '';
       amountInput.value = '';
-      categoryInput.value = 'web';
+      categoryInput.value = '';
       taskInput.focus();
     }
   });
@@ -131,9 +131,6 @@ function setupEventListeners() {
         currentFilter: 'all'
       };
       
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelector('[data-filter="all"]').classList.add('active');
-      
       saveData();
       render();
     }
@@ -142,6 +139,7 @@ function setupEventListeners() {
 
 function render() {
   updateHUD();
+  renderFilterPills();
   renderExpenseList();
 }
 
@@ -152,15 +150,71 @@ function formatCurrency(amount) {
   }).format(amount);
 }
 
-function getCategoryBadgeHTML(category) {
-  const categoryNames = {
+function getCategoryLabel(category) {
+  const defaultLabels = {
     web: 'Web Fluid',
     tech: 'Stark Tech',
     food: 'Daily Food',
     suit: 'Suit Maint.',
     other: 'Other'
   };
-  return `<span class="task-category badge-${category}">${categoryNames[category] || category}</span>`;
+  const catStr = typeof category === 'string' ? category : '';
+  const normalized = catStr.toLowerCase().trim();
+  return defaultLabels[normalized] || catStr;
+}
+
+function getCategoryBadgeHTML(category) {
+  const defaultCategories = {
+    web: { label: 'Web Fluid', class: 'badge-web' },
+    tech: { label: 'Stark Tech', class: 'badge-tech' },
+    food: { label: 'Daily Food', class: 'badge-food' },
+    suit: { label: 'Suit Maint.', class: 'badge-suit' },
+    other: { label: 'Other', class: 'badge-other' }
+  };
+
+  const catStr = typeof category === 'string' ? category : '';
+  const normalized = catStr.toLowerCase().trim();
+  let badgeClass = '';
+  let label = catStr;
+  let styleAttr = '';
+
+  if (defaultCategories[normalized]) {
+    badgeClass = defaultCategories[normalized].class;
+    label = defaultCategories[normalized].label;
+  } else {
+    // Generate deterministic HSL color based on string hash for premium custom badges
+    let hash = 0;
+    for (let i = 0; i < normalized.length; i++) {
+      hash = normalized.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const hue = Math.abs(hash) % 360;
+    styleAttr = `style="background: hsla(${hue}, 75%, 45%, 0.15); color: hsl(${hue}, 90%, 65%); border: 1px solid hsla(${hue}, 75%, 45%, 0.35);"`;
+  }
+
+  return `<span class="task-category ${badgeClass}" ${styleAttr}>${escapeHTML(label)}</span>`;
+}
+
+function renderFilterPills() {
+  const uniqueCategories = [...new Set(state.expenses.map(item => (typeof item.category === 'string' ? item.category : '').trim()))]
+    .filter(Boolean);
+
+  if (state.currentFilter !== 'all') {
+    const filterExists = uniqueCategories.some(cat => cat.toLowerCase() === state.currentFilter.toLowerCase());
+    if (!filterExists) {
+      state.currentFilter = 'all';
+    }
+  }
+
+  let html = `<button class="filter-btn ${state.currentFilter === 'all' ? 'active' : ''}" data-filter="all">All</button>`;
+  
+  uniqueCategories.forEach(cat => {
+    const displayLabel = getCategoryLabel(cat);
+    const filterValue = cat.toLowerCase();
+    const isActive = state.currentFilter === filterValue;
+    html += `<button class="filter-btn ${isActive ? 'active' : ''}" data-filter="${escapeHTML(filterValue)}">${escapeHTML(displayLabel)}</button>`;
+  });
+
+  filterPills.innerHTML = html;
 }
 
 function formatDate(isoString) {
@@ -230,7 +284,8 @@ function updateHUD() {
 function renderExpenseList() {
   const filter = state.currentFilter;
   const filteredExpenses = state.expenses.filter(item => {
-    return filter === 'all' || item.category === filter;
+    const itemCat = (typeof item.category === 'string' ? item.category : '').toLowerCase().trim();
+    return filter === 'all' || itemCat === filter;
   });
 
   if (filteredExpenses.length === 0) {

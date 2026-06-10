@@ -68,13 +68,14 @@
 
             <div class="form-group">
               <label for="expenseCategory">Category</label>
-              <select id="expenseCategory" required>
-                <option value="web" selected>Web Fluid & Gear</option>
-                <option value="tech">Stark Tech & Upgrades</option>
-                <option value="food">Daily Food & Pizza</option>
-                <option value="suit">Suit Maintenance</option>
-                <option value="other">Other Expenses</option>
-              </select>
+              <input type="text" id="expenseCategory" list="categoryDefaults" placeholder="e.g., Web Fluid, Stark Tech" required autocomplete="off">
+              <datalist id="categoryDefaults">
+                <option value="Web Fluid">
+                <option value="Stark Tech">
+                <option value="Daily Food">
+                <option value="Suit Maint.">
+                <option value="Other">
+              </datalist>
             </div>
 
             <button type="submit" id="addExpenseBtn" class="btn">
@@ -134,14 +135,7 @@
       <div class="expenses-header">
         <h2>📋 Mission Expenses Log</h2>
         
-        <div class="filter-group" id="filterPills">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="web">Web Fluid</button>
-          <button class="filter-btn" data-filter="tech">Stark Tech</button>
-          <button class="filter-btn" data-filter="food">Daily Food</button>
-          <button class="filter-btn" data-filter="suit">Suit Maintenance</button>
-          <button class="filter-btn" data-filter="other">Other</button>
-        </div>
+        <div class="filter-group" id="filterPills"></div>
       </div>
 
       <div class="expense-list-container">

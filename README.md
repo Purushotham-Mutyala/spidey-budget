@@ -22,7 +22,7 @@ If your remaining budget dips below **20%**, your **Spider-Sense** will start ti
 - **🚨 Spider-Sense Warnings**: Activates a pulsing full-screen warning and banner notification when funds are low or exceeded.
 - **⚡ Web-Shoot Forms**: Fast inputs for setting budgets and adding tasks with custom click transitions and slide-in animations.
 - **📂 Local Storage Persistence**: Retains all data automatically inside the browser cache—so reload, close, or reopen the tab without losing your logs.
-- **🧪 Dynamic Category Filters**: Filter and search through logs by category (Web Fluid & Gear, Stark Tech, Daily Food, Suit Maintenance, and Others).
+- **🧪 Dynamic Category & Color Systems**: Type custom categories with autocomplete datalist assistance. Filter pills update dynamically based on your logged expenses, and custom badges are automatically styled with unique, deterministic colors calculated on-the-fly.
 - **📱 Fully Responsive**: Custom CSS flexbox/grid architecture that scales from giant desktop setups down to mobile Web-Shooters.
 
 ---
@@ -34,6 +34,7 @@ If your remaining budget dips below **20%**, your **Spider-Sense** will start ti
 - **Suit Blue (Accent)**: `#3399ff`
 - **Spider-Sense Warning (Electro Gold)**: `#ffd700`
 - **Spidey HUD Safe (Neon Green)**: `#10b981`
+- **Dynamic Categories (Procedural HSL)**: Color hashes generated dynamically for user-typed categories.
 
 The background includes a custom CSS generated radiating spiderweb design overlaid onto high-performance glassmorphic cards.
 
