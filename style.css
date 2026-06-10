@@ -673,3 +673,145 @@ td {
   z-index: 0;
   color: var(--color-text);
 }
+
+/* --- MOBILE RESPONSIVENESS AND OPTIMIZATIONS --- */
+
+@media (max-width: 600px) {
+  /* Header Adjustments */
+  header {
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  header h1 {
+    font-size: 2rem;
+  }
+  
+  header .logo-container {
+    width: 75px;
+    height: 75px;
+  }
+
+  /* Table to Cards Transformation on Mobile */
+  #expenseTable, 
+  #expenseTable tbody, 
+  #expenseTable tr, 
+  #expenseTable td {
+    display: block;
+    width: 100%;
+  }
+
+  #expenseTable thead {
+    display: none; /* Hide table headers */
+  }
+
+  #expenseTable tr {
+    position: relative;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    background: rgba(3, 7, 18, 0.4);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  #expenseTable td {
+    padding: 0.3rem 0;
+    border: none;
+    text-align: left;
+  }
+
+  /* Task / Item Name styling */
+  #expenseTable td:nth-child(1) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    padding-right: 2.5rem; /* Leave room for delete button */
+  }
+
+  /* Category badge */
+  #expenseTable td:nth-child(2) {
+    display: inline-block;
+    margin: 0.2rem 0;
+  }
+
+  /* Date styling */
+  #expenseTable td:nth-child(3) {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+  }
+
+  /* Amount styling */
+  #expenseTable td:nth-child(4) {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-top: 0.4rem;
+  }
+
+  /* Delete Action Button styling */
+  #expenseTable td:nth-child(5) {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.1rem;
+    padding: 0;
+    width: auto;
+  }
+
+  .delete-btn {
+    padding: 0.4rem;
+    background: rgba(255, 51, 68, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 51, 68, 0.15);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-container {
+    padding: 1rem 0.75rem;
+  }
+
+  .glass-card {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .metric-value {
+    font-size: 1.4rem;
+  }
+
+  .hud-circle-container {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media (hover: hover) {
+  /* Guard hover-only actions to avoid stuck hover styles on mobile touch */
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(226, 54, 54, 0.5);
+    background: linear-gradient(135deg, var(--color-neon-red), #ff5566);
+  }
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  .glass-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 51, 68, 0.2);
+  }
+  header .logo-container:hover {
+    transform: scale(1.1) rotate(15deg);
+    border-color: var(--color-neon-blue);
+    box-shadow: var(--shadow-neon-blue);
+  }
+  .delete-btn:hover {
+    color: var(--color-neon-red);
+    background: rgba(255, 51, 68, 0.1);
+    transform: scale(1.1);
+  }
+}
