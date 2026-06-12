@@ -52,7 +52,7 @@ function setupEventListeners() {
     e.preventDefault();
     const newBudget = parseFloat(budgetInput.value);
     if (!isNaN(newBudget) && newBudget >= 0) {
-      state.budget = newBudget;
+      state.budget += newBudget;
       
       const card = document.getElementById('budgetSetupCard');
       card.classList.add('web-shoot-effect');
